@@ -105,14 +105,14 @@ jobs:
           .bin/linux/ppc64le \
           .bin/linux/riscv64 \
           .bin/linux/s390x
-        tar -xzf dist/gohello_${{ github.ref_name }}_linux_386.tar.gz     -C .bin/linux/386/
-        tar -xzf dist/gohello_${{ github.ref_name }}_linux_amd64.tar.gz   -C .bin/linux/amd64/
-        tar -xzf dist/gohello_${{ github.ref_name }}_linux_arm64.tar.gz   -C .bin/linux/arm64/
-        tar -xzf dist/gohello_${{ github.ref_name }}_linux_armv6.tar.gz   -C .bin/linux/arm/v6/
-        tar -xzf dist/gohello_${{ github.ref_name }}_linux_armv7.tar.gz   -C .bin/linux/arm/v7/
-        tar -xzf dist/gohello_${{ github.ref_name }}_linux_ppc64le.tar.gz -C .bin/linux/ppc64le/
-        tar -xzf dist/gohello_${{ github.ref_name }}_linux_riscv64.tar.gz -C .bin/linux/riscv64/
-        tar -xzf dist/gohello_${{ github.ref_name }}_linux_s390x.tar.gz   -C .bin/linux/s390x/
+        tar -xzf dist/gohello_${{ inputs.release-version }}_linux_386.tar.gz     -C .bin/linux/386/
+        tar -xzf dist/gohello_${{ inputs.release-version }}_linux_amd64.tar.gz   -C .bin/linux/amd64/
+        tar -xzf dist/gohello_${{ inputs.release-version }}_linux_arm64.tar.gz   -C .bin/linux/arm64/
+        tar -xzf dist/gohello_${{ inputs.release-version }}_linux_armv6.tar.gz   -C .bin/linux/arm/v6/
+        tar -xzf dist/gohello_${{ inputs.release-version }}_linux_armv7.tar.gz   -C .bin/linux/arm/v7/
+        tar -xzf dist/gohello_${{ inputs.release-version }}_linux_ppc64le.tar.gz -C .bin/linux/ppc64le/
+        tar -xzf dist/gohello_${{ inputs.release-version }}_linux_riscv64.tar.gz -C .bin/linux/riscv64/
+        tar -xzf dist/gohello_${{ inputs.release-version }}_linux_s390x.tar.gz   -C .bin/linux/s390x/
 
     - name: Docker meta
       id: meta
@@ -122,12 +122,12 @@ jobs:
           ${{ vars.DOCKERHUB_USERNAME }}/go-hello
           ghcr.io/${{ github.repository }}
         tags: |
-          type=semver,pattern={{major}}.{{minor}}.{{patch}}
-          type=semver,pattern={{major}}.{{minor}}
-          type=semver,pattern={{major}}
-          type=semver,pattern=v{{major}}.{{minor}}.{{patch}}
-          type=semver,pattern=v{{major}}.{{minor}}
-          type=semver,pattern=v{{major}}
+          type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ inputs.release-version }}
+          type=semver,pattern={{major}}.{{minor}},value=${{ inputs.release-version }}
+          type=semver,pattern={{major}},value=${{ inputs.release-version }}
+          type=semver,pattern=v{{major}}.{{minor}}.{{patch}},value=${{ inputs.release-version }}
+          type=semver,pattern=v{{major}}.{{minor}},value=${{ inputs.release-version }}
+          type=semver,pattern=v{{major}},value=${{ inputs.release-version }}
           type=sha,prefix=,suffix=,format=long
 
     - name: Set up QEMU
